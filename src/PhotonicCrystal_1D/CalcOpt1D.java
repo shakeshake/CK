@@ -21,6 +21,8 @@ public class CalcOpt1D {
     public int nol;  // Number of layers
     public double angle;
     double pi = 3.14159;
+    
+//    double dlambda = 0.1; // delta lambda
 //    public int wlimUpper, wlimLower; // Wavelength limit to calculate...
     
     public CalcOpt1D(){
@@ -86,13 +88,44 @@ public class CalcOpt1D {
 //    }
     
     //HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
-    public Matrix matrixCalc() { // HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
-        Matrix matrix = new Matrix();
+    public JonesMatrix matrixCalc() { // HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
+        JonesMatrix matrix = new JonesMatrix();
         //matrix[0][0].
+        
         return matrix;
     }
     //HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
     
+    public JonesMatrix createMatrix() {
+        JonesMatrix matrix = new JonesMatrix();
+       
+        Complex a = new Complex();
+        Complex b = new Complex();
+        Complex c = new Complex();
+        Complex d = new Complex();
+        
+        a.real=Math.cos(2*pi);
+        a.imag=0;
+        
+        b.real=0;
+        b.imag=Math.sin(0);
+        
+        c.real=0;
+        c.imag=Math.sin(0);
+        
+        d.real=Math.cos(0);
+        d.imag=0;
+        
+        Complex temp[][] = {{a,b},{c,d}};
+        
+        
+        
+        matrix.setmatrix(temp);
+        
+        
+        
+        return matrix;
+    }
     
     
     
