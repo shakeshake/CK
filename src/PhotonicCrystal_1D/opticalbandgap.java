@@ -33,7 +33,7 @@ public class opticalbandgap extends javax.swing.JApplet {
     
     private List<Double> tdata;
     private List<Double> rdata;
-    private CalcOptConst optConst;
+    private CalcOptConst optConst = new CalcOptConst();
     
     /**
      * Initializes the applet opticalbandgap
@@ -72,7 +72,7 @@ public class opticalbandgap extends javax.swing.JApplet {
                     //CalcOptConst optConst = new CalcOptConst();
                     
                     //updateAllParam()
-                    graphrefreshAll();
+                    graphRefreshAll();
                     
 
             
@@ -88,9 +88,9 @@ public class opticalbandgap extends javax.swing.JApplet {
 
     
 
-    public void graphrefresh(java.awt.Panel graph, List<Double> data) {
+    public void graphRefresh(java.awt.Panel graph, List<Double> data) {
         
-        //updateAllParam();
+        updateAllParam();
         graph.setPreferredSize(new Dimension(450,260));
         graph.removeAll();
         graph.setLayout(new java.awt.BorderLayout());
@@ -99,9 +99,10 @@ public class opticalbandgap extends javax.swing.JApplet {
         graph.validate();
     }   
     
-    public void graphrefreshAll() {
-        graphrefresh(panel_tgraph,CalcOptConst.testdata(1000));  
-        graphrefresh(panel_rgraph,CalcOptConst.testdata(1000));
+    public void graphRefreshAll() {
+        graphRefresh(panel_tgraph,optConst.testdata(1000,100));  
+        graphRefresh(panel_rgraph,optConst.testdata(1000,100)); /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
         // Change test method to calculating method after make it!
     }
     
@@ -121,8 +122,11 @@ public class opticalbandgap extends javax.swing.JApplet {
         optConst.d2 = Double.valueOf(d_txtbox2.getText());        
         
         optConst.nol = nol_slider.getValue();
-        optConst.wlimLower = 1000;  // in nanometer. Modified to be changable in the future
-        optConst.wlimUpper = 300;   // also, in nanometer
+//        optConst.wlimLower = 1000;  // in nanometer. Modified to be changable in the future
+//        optConst.wlimUpper = 300;   // also, in nanometer
+        
+//        optConst.angle = (double) angle_slider.getValue();
+        optConst.angle = Double.valueOf(angle_txtbox.getText());
         
     }
    
@@ -170,6 +174,9 @@ public class opticalbandgap extends javax.swing.JApplet {
         nol_slider = new javax.swing.JSlider();
         nol_txtbox = new javax.swing.JTextField();
         d_label3 = new javax.swing.JLabel();
+        angle_slider = new javax.swing.JSlider();
+        angle_txtbox = new javax.swing.JTextField();
+        d_label4 = new javax.swing.JLabel();
         panel_tgraph = new java.awt.Panel();
         panel_rgraph = new java.awt.Panel();
 
@@ -445,18 +452,48 @@ public class opticalbandgap extends javax.swing.JApplet {
         d_label3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         d_label3.setText("Number of layers");
 
+        angle_slider.setMaximum(90);
+        angle_slider.setValue(0);
+        angle_slider.setPreferredSize(new java.awt.Dimension(170, 23));
+        angle_slider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                angle_sliderStateChanged(evt);
+            }
+        });
+
+        angle_txtbox.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        angle_txtbox.setText("0");
+        angle_txtbox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                angle_txtboxActionPerformed(evt);
+            }
+        });
+
+        d_label4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        d_label4.setText("Incidence angle");
+
         javax.swing.GroupLayout jPanel_etcLayout = new javax.swing.GroupLayout(jPanel_etc);
         jPanel_etc.setLayout(jPanel_etcLayout);
         jPanel_etcLayout.setHorizontalGroup(
             jPanel_etcLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_etcLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(d_label3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nol_txtbox, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nol_slider, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel_etcLayout.createSequentialGroup()
+                .addGroup(jPanel_etcLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_etcLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(d_label3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nol_txtbox, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nol_slider, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_etcLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(d_label4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(angle_txtbox, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(angle_slider, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jPanel_etcLayout.setVerticalGroup(
             jPanel_etcLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -467,7 +504,13 @@ public class opticalbandgap extends javax.swing.JApplet {
                         .addComponent(nol_txtbox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(d_label3))
                     .addComponent(nol_slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel_etcLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(angle_slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel_etcLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(angle_txtbox, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(d_label4)))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         panel_tgraph.setPreferredSize(new java.awt.Dimension(450, 260));
@@ -544,7 +587,7 @@ public class opticalbandgap extends javax.swing.JApplet {
         // String sliderval = String.valueOf((double)(n_slider1.getValue()) / 100.);
         String sliderval = String.format("%.2f",(double)(n_slider1.getValue())/100.);
         n_txtbox1.setText(sliderval);
-        graphrefreshAll();
+        graphRefreshAll();
                      
     }//GEN-LAST:event_n_slider1StateChanged
 
@@ -552,7 +595,7 @@ public class opticalbandgap extends javax.swing.JApplet {
         // TODO add your handling code here:
         double tmp = Double.valueOf(n_txtbox1.getText());
         n_slider1.setValue((int)(tmp)*100);
-        graphrefreshAll();
+        graphRefreshAll();
 
     }//GEN-LAST:event_n_txtbox1ActionPerformed
 
@@ -561,21 +604,21 @@ public class opticalbandgap extends javax.swing.JApplet {
         //String sliderval = String.valueOf((double)(k_slider1.getValue()) / 100.);
         String sliderval = String.format("%.2f",(double)(k_slider1.getValue())/100.);
         k_txtbox1.setText(sliderval);
-        graphrefreshAll();
+        graphRefreshAll();
     }//GEN-LAST:event_k_slider1StateChanged
 
     private void k_txtbox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_k_txtbox1ActionPerformed
         // TODO add your handling code here:
         double tmp = Double.valueOf(k_txtbox1.getText());
         k_slider1.setValue((int)(tmp)*10);
-        graphrefreshAll();
+        graphRefreshAll();
     }//GEN-LAST:event_k_txtbox1ActionPerformed
 
     private void d_txtbox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_d_txtbox1ActionPerformed
         // TODO add your handling code here:
         double tmp = Double.valueOf(d_txtbox1.getText());
         d_slider1.setValue((int)(tmp)*1);     
-        graphrefreshAll();
+        graphRefreshAll();
     }//GEN-LAST:event_d_txtbox1ActionPerformed
 
     private void d_slider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_d_slider1StateChanged
@@ -584,7 +627,7 @@ public class opticalbandgap extends javax.swing.JApplet {
         //String sliderval = String.valueOf((double)(d_slider1.getValue()) / 1.);
         String sliderval = String.format("%.0f",(double)(d_slider1.getValue())/1.);
         d_txtbox1.setText(sliderval);
-        graphrefreshAll();
+        graphRefreshAll();
     }//GEN-LAST:event_d_slider1StateChanged
 
     
@@ -595,14 +638,14 @@ public class opticalbandgap extends javax.swing.JApplet {
         // TODO add your handling code here:
         double tmp = Double.valueOf(n_txtbox2.getText());
         n_slider2.setValue((int)(tmp)*100);
-        graphrefreshAll();
+        graphRefreshAll();
     }//GEN-LAST:event_n_txtbox2ActionPerformed
 
     private void n_slider2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_n_slider2StateChanged
         // TODO add your handling code here:
         String sliderval = String.format("%.2f",(double)(n_slider2.getValue())/100.);
         n_txtbox2.setText(sliderval);
-        graphrefreshAll();
+        graphRefreshAll();
     }//GEN-LAST:event_n_slider2StateChanged
 
     private void k_slider2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_k_slider2StateChanged
@@ -611,7 +654,7 @@ public class opticalbandgap extends javax.swing.JApplet {
         k_txtbox2.setText(sliderval);        
         
         
-        graphrefreshAll();
+        graphRefreshAll();
     }//GEN-LAST:event_k_slider2StateChanged
 
     private void k_txtbox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_k_txtbox2ActionPerformed
@@ -620,7 +663,7 @@ public class opticalbandgap extends javax.swing.JApplet {
         k_slider2.setValue((int)(tmp)*10);        
         
         
-        graphrefreshAll();
+        graphRefreshAll();
     }//GEN-LAST:event_k_txtbox2ActionPerformed
 
     private void d_txtbox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_d_txtbox2ActionPerformed
@@ -629,7 +672,7 @@ public class opticalbandgap extends javax.swing.JApplet {
         d_slider2.setValue((int)(tmp)*1);           
         
         
-        graphrefreshAll();
+        graphRefreshAll();
     }//GEN-LAST:event_d_txtbox2ActionPerformed
 
     private void d_slider2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_d_slider2StateChanged
@@ -638,7 +681,7 @@ public class opticalbandgap extends javax.swing.JApplet {
         d_txtbox2.setText(sliderval);        
         
         
-        graphrefreshAll();
+        graphRefreshAll();
     }//GEN-LAST:event_d_slider2StateChanged
 
     private void nol_sliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_nol_sliderStateChanged
@@ -647,7 +690,7 @@ public class opticalbandgap extends javax.swing.JApplet {
         nol_txtbox.setText(sliderval);     
         
         
-        graphrefreshAll();
+        graphRefreshAll();
         
     }//GEN-LAST:event_nol_sliderStateChanged
 
@@ -656,11 +699,30 @@ public class opticalbandgap extends javax.swing.JApplet {
     private void nol_txtboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nol_txtboxActionPerformed
         // TODO add your handling code here:
                 
-        graphrefreshAll();
+        graphRefreshAll();
         
         
         
     }//GEN-LAST:event_nol_txtboxActionPerformed
+
+    private void angle_sliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_angle_sliderStateChanged
+        // TODO add your handling code here:
+        String sliderval = String.format("%.0f",(double)(angle_slider.getValue())/1.);
+        angle_txtbox.setText(sliderval);        
+                
+        graphRefreshAll();        
+        
+        
+    }//GEN-LAST:event_angle_sliderStateChanged
+
+    private void angle_txtboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_angle_txtboxActionPerformed
+        // TODO add your handling code here:
+        double tmp = Double.valueOf(angle_txtbox.getText());
+        angle_slider.setValue((int)(tmp)*1);           
+        
+        
+        graphRefreshAll();        
+    }//GEN-LAST:event_angle_txtboxActionPerformed
 
 
     
@@ -685,9 +747,12 @@ public class opticalbandgap extends javax.swing.JApplet {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSlider angle_slider;
+    private javax.swing.JTextField angle_txtbox;
     private javax.swing.JLabel d_label1;
     private javax.swing.JLabel d_label2;
     private javax.swing.JLabel d_label3;
+    private javax.swing.JLabel d_label4;
     private javax.swing.JSlider d_slider1;
     private javax.swing.JSlider d_slider2;
     private javax.swing.JTextField d_txtbox1;
@@ -724,45 +789,84 @@ class CalcOptConst {
     public double n1,k1,d1;
     public double n2,k2,d2;
     public int nol;  // Number of layers
-    public int wlimUpper, wlimLower; // Wavelength limit to calculate...
+    public double angle;
+    double pi = 3.14159;
+//    public int wlimUpper, wlimLower; // Wavelength limit to calculate...
     
     public CalcOptConst(){
    
     }
    
      
-    public CalcOptConst(List<Double> paramMaterial, List<Integer> paramStructure) {
-        n1 = paramMaterial.get(0);
-        k1 = paramMaterial.get(1);
-        d1 = paramMaterial.get(2);
+    public CalcOptConst(List<Double> paramMaterial1, List<Double> paramMaterial2, List<Integer> paramStructure) {
+// ===========================
+//      ParamMaterial
+// ===========================
+//      0 : n1
+//      1 : k1
+//      2 : d1
+//                 
+// ===========================
+//      paramStructure
+// ===========================       
+//      0 : nol
+//      1 : angle
+//
+                    
+        n1 = paramMaterial1.get(0);
+        k1 = paramMaterial1.get(1);
+        d1 = paramMaterial1.get(2);
         
-        n2 = paramMaterial.get(3);
-        k2 = paramMaterial.get(4);
-        d2 = paramMaterial.get(5);
+        n2 = paramMaterial2.get(0);
+        k2 = paramMaterial2.get(1);
+        d2 = paramMaterial2.get(2);
         
         nol = paramStructure.get(0);
-        wlimUpper = paramStructure.get(1);
-        wlimLower = paramStructure.get(2);
+        angle = paramStructure.get(1);
+//        wlimUpper = paramStructure.get(1);
+//        wlimLower = paramStructure.get(2);
         //JonesMatrix testt = new JonesMatrix();
+        angle = paramStructure.get(3);
         
         
              
     }
     
-    static List<Double> testdata(int nOfData) {
+    static List<Double> testdata(int nOfData, double maxValue) {
         
         List<Double> testdata = new ArrayList<>();
         Random random = new Random();
         int maxDataPoints = nOfData;
-        int maxScore = 100;
+        //double maxScore = maxvalue;
                      
         for (int i = 0; i < maxDataPoints; i++) {
-            testdata.add((double) random.nextDouble() * maxScore);
+            //double tempnum;
+            testdata.add((double) random.nextDouble() * maxValue);
+            
 //            plotdata.add((double) i);
         }  // Making data in here
         
         return testdata;
     }
+    
+//    public List<Double> testdata(int nOfData) {
+//        
+//        //return this.testdata(nOfData, 100);
+//        return this.testdata(nOfData, 100);
+//    }
+    
+    //HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
+    public Matrix matrixCalc() { // HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
+        Matrix matrix = new Matrix();
+        matrix[0][0].
+        return matrix;
+    }
+    //HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
+    
+    
+    
+    
+    
     
         
     static List<Double> calcT(List<Double> params) { // for transmittance
@@ -779,79 +883,80 @@ class CalcOptConst {
         return refl;
     }
     
-    public void updateParam(List<Double> paramMaterial, List<Integer> paramStructure) {
+    public void updateParam(List<Double> paramMaterial1, List<Double> paramMaterial2, List<Integer> paramStructure) {
     // 아... 이건 고민 좀 해보자... 
-        n1 = paramMaterial.get(0);
-        k1 = paramMaterial.get(1);
-        d1 = paramMaterial.get(2);
+        n1 = paramMaterial1.get(0);
+        k1 = paramMaterial1.get(1);
+        d1 = paramMaterial1.get(2);
         
-        n2 = paramMaterial.get(3);
-        k2 = paramMaterial.get(4);
-        d2 = paramMaterial.get(5);
+        n2 = paramMaterial2.get(0);
+        k2 = paramMaterial2.get(1);
+        d2 = paramMaterial2.get(2);
         
         nol = paramStructure.get(0);
-        wlimUpper = paramStructure.get(1);
-        wlimLower = paramStructure.get(2);
+        angle = paramStructure.get(1);
+//        wlimUpper = paramStructure.get(1);
+//        wlimLower = paramStructure.get(2);
+        
+        
     }
-    
     
 
 }
 
 
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class JonesMatrix {
-      
-//                 |  [0][0]    [0][1]  |
-//    Structure =  |                    |
-//                 |  [1][0]    [1][1]  |
-    
-    double matrix[][];
-    
-    
-    
-    public JonesMatrix(){
-        
-    }
-    
-    public JonesMatrix product(JonesMatrix jm1, JonesMatrix jm2) {
-        JonesMatrix jmtmp = new JonesMatrix();
-        
-        double matrix[][] = new double[2][2];
-        double matrix1[][] = jm1.getmatrix();
-        double matrix2[][] = jm2.getmatrix();
-
-        for (int i=0;i<=2;i++) {
-            for (int j=0;j<=2;j++) {
-                matrix[i][j]=matrix1[i][0]*matrix2[0][j] + matrix1[i][1]*matrix2[1][j];
-            }
-        }
-        
-        jmtmp.setmatrix(matrix);
-        
-        return jmtmp;
-        
-    } // 아.. 전혀 객체지향적이지 않네... 나중에 바꿔야지
-        
-    public double[][] getmatrix() {
-        return matrix;
-    }
-    
-    public void setmatrix(double imatrix[][]) {
-        matrix = imatrix;
-    }
-    
-    
-    
-    
-    
-    
-}
+//class JonesMatrix {
+//      
+////                 |  [0][0]    [0][1]  |
+////    Structure =  |                    |
+////                 |  [1][0]    [1][1]  |
+//    
+//    double matrix[][];
+//    
+//    
+//    
+//    public JonesMatrix(){
+//        
+//    }
+//    
+//    public JonesMatrix product(JonesMatrix jm1, JonesMatrix jm2) {
+//        JonesMatrix jmtmp = new JonesMatrix();
+//        
+//        double matrix[][] = new double[2][2];
+//        double matrix1[][] = jm1.getmatrix();
+//        double matrix2[][] = jm2.getmatrix();
+//
+//        for (int i=0;i<=2;i++) {
+//            for (int j=0;j<=2;j++) {
+//                matrix[i][j]=matrix1[i][0]*matrix2[0][j] + matrix1[i][1]*matrix2[1][j];
+//            }
+//        }
+//        
+//        jmtmp.setmatrix(matrix);
+//        
+//        return jmtmp;
+//        
+//    } // 아.. 전혀 객체지향적이지 않네... 나중에 바꿔야지
+//        
+//    public double[][] getmatrix() {
+//        return matrix;
+//    }
+//    
+//    public void setmatrix(double imatrix[][]) {
+//        matrix = imatrix;
+//    }
+//    
+//    
+//    
+//    
+//    
+//    
+//}
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1024,7 +1129,7 @@ class GraphPanel extends JPanel {
 //        frame.setLocationRelativeTo(null);
 //        frame.setVisible(true);     
 //    }
-    
+
 }
 
 
