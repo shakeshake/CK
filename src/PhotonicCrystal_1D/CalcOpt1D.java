@@ -110,19 +110,28 @@ public class CalcOpt1D {
         matrix1.setmatrix(lambda);
         matrix2.setmatrix(lambda);
         
-        M = matrix2.product(matrix1);
+        // M = matrix2.product(matrix1);
      
         
 
-        
-        for (int i=1;i<(nol-1);i++){
-            M = M.product(M);
-        }
+        if (nol>=2) {
+            M = matrix2.product(matrix1);
+            for (int i=1;i<nol;i++){
+                M = M.product(M);
+            }
 
-        M = matrix0.product(M);
-        M = M.product(matrix2);
-        
-        
+            M = matrix0.product(M);
+            M = M.product(matrix2);
+        }
+        else if (nol==1) {
+            M=matrix1.product(matrix2);
+        }
+        else {
+            JonesMatrix tempM = new JonesMatrix(1,0,0,theta0);
+            tempM.setmatrix(lambda);
+            M = tempM;
+        }
+  
         
 
         return M;
@@ -197,19 +206,21 @@ public class CalcOpt1D {
         Complex tmpc;
         Complex tmpca = new Complex(0,0);
         Complex tmpcb = new Complex(0,0);
-        Complex tmpc1, tmpc2, tmpc3, tmpc4;
+        Complex tmpc1, tmpc2, tmpc3, tmpc4 = new Complex(0,0);
         //double pa = Math.cos(angle);
 //        Complex pa = new Complex(1,0);
 //        Complex ps = new Complex(1.7,0);
         //double ps = pa;
 
-        JonesMatrix M;// = new JonesMatrix();        
+        JonesMatrix M = new JonesMatrix();        
         
         for (int i = 0 ; i < points ; i++) {
             lambda = wlimUpper+dw*i;
-            M=matrixCalc(lambda); ////////////////////////////
+            //M=matrixCalc(lambda); ////////////////////////////
+            //Complex matrix[][] = M.getmatrix();
+            M.setmatrix(matrixCalc(lambda).getmatrix()); ////////////////////////////
             Complex matrix[][] = M.getmatrix();
-
+            
             tmpc1 = matrix[0][0].product(pa);
             tmpc2 = matrix[0][1].product(pa.product(ps));
             tmpc3 = matrix[1][0];
