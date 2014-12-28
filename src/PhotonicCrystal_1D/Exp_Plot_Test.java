@@ -68,16 +68,17 @@ public class Exp_Plot_Test extends javax.swing.JApplet {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jSlider1 = new javax.swing.JSlider();
+        slider_angle = new javax.swing.JSlider();
         panel1 = new java.awt.Panel();
-        jSlider2 = new javax.swing.JSlider();
+        slider_offset = new javax.swing.JSlider();
+        slider_nol = new javax.swing.JSlider();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
 
-        jSlider1.setMaximum(90);
-        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+        slider_angle.setMaximum(90);
+        slider_angle.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSlider1StateChanged(evt);
+                slider_angleStateChanged(evt);
             }
         });
 
@@ -92,9 +93,18 @@ public class Exp_Plot_Test extends javax.swing.JApplet {
             .addGap(0, 440, Short.MAX_VALUE)
         );
 
-        jSlider2.addChangeListener(new javax.swing.event.ChangeListener() {
+        slider_offset.setValue(0);
+        slider_offset.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSlider2StateChanged(evt);
+                slider_offsetStateChanged(evt);
+            }
+        });
+
+        slider_nol.setMaximum(10);
+        slider_nol.setValue(1);
+        slider_nol.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                slider_nolStateChanged(evt);
             }
         });
 
@@ -105,8 +115,9 @@ public class Exp_Plot_Test extends javax.swing.JApplet {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(slider_angle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(slider_offset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(slider_nol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(75, 75, 75)
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(60, Short.MAX_VALUE))
@@ -115,10 +126,12 @@ public class Exp_Plot_Test extends javax.swing.JApplet {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(slider_angle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(66, 66, 66)
-                .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(318, 318, 318))
+                .addComponent(slider_offset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(slider_nol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(261, 261, 261))
             .addGroup(layout.createSequentialGroup()
                 .addGap(72, 72, 72)
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -126,21 +139,30 @@ public class Exp_Plot_Test extends javax.swing.JApplet {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
+    private void slider_angleStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_angleStateChanged
         // TODO add your handling code here:
-        Plot(jSlider1.getValue()*3.14159/180,jSlider2.getValue());
-    }//GEN-LAST:event_jSlider1StateChanged
+        Plot(slider_angle.getValue()*3.14159/180,slider_offset.getValue());
+    }//GEN-LAST:event_slider_angleStateChanged
 
-    private void jSlider2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider2StateChanged
+    private void slider_offsetStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_offsetStateChanged
         // TODO add your handling code here:
-        Plot(jSlider1.getValue()*3.14159/180,jSlider2.getValue());
-    }//GEN-LAST:event_jSlider2StateChanged
+            Plot(slider_angle.getValue()*3.14159/180,slider_offset.getValue());
+    }//GEN-LAST:event_slider_offsetStateChanged
+
+    private void slider_nolStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_nolStateChanged
+        // TODO add your handling code here:
+            Plot(slider_angle.getValue()*3.14159/180,slider_offset.getValue());
+        
+        // 여기에 작성
+        
+    }//GEN-LAST:event_slider_nolStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JSlider jSlider1;
-    private javax.swing.JSlider jSlider2;
     private java.awt.Panel panel1;
+    private javax.swing.JSlider slider_angle;
+    private javax.swing.JSlider slider_nol;
+    private javax.swing.JSlider slider_offset;
     // End of variables declaration//GEN-END:variables
 
     

@@ -28,6 +28,7 @@ public class DrawingPanel extends JPanel {
     private int material1_thickness = 0;
     private int material2_thickness = 0;
     private int substrate_thickness = 30;
+    private int nol = 0; // the number of layer
     
     public DrawingPanel(double angle) {
         this.angle = angle;      
@@ -41,12 +42,17 @@ public class DrawingPanel extends JPanel {
         int height = (int)getHeight();
         linelength = getWidth()*0.5-padding;
         
-        g2.drawLine(padding, height-1*padding-substrate_thickness, width-padding, height-1*padding-substrate_thickness); // bottom side
-        g2.drawLine(padding, height-1*padding-substrate_thickness, (int)(width*0.5-boxnarrowside*width*0.5),(int)(height-1*padding-boxheight*height-substrate_thickness));  // left side
-        g2.drawLine(width-padding, height-1*padding-substrate_thickness, (int)(width*0.5+boxnarrowside*width*0.5), (int)(height-1*padding-boxheight*height-substrate_thickness));  // right side
-        g2.drawLine( (int)(width*0.5-boxnarrowside*width*0.5),(int)(height-1*padding-boxheight*height-substrate_thickness), (int)(width*0.5+boxnarrowside*width*0.5), (int)(height-1*padding-boxheight*height-substrate_thickness));  // top side
+        g2.drawLine(padding, height-1*padding-substrate_thickness-y_offset, width-padding, height-1*padding-substrate_thickness-y_offset); // bottom side
+        g2.drawLine(padding, height-1*padding-substrate_thickness-y_offset, (int)(width*0.5-boxnarrowside*width*0.5),(int)(height-1*padding-boxheight*height-substrate_thickness-y_offset));  // left side
+        g2.drawLine(width-padding, height-1*padding-substrate_thickness-y_offset, (int)(width*0.5+boxnarrowside*width*0.5), (int)(height-1*padding-boxheight*height-substrate_thickness-y_offset));  // right side
+        g2.drawLine( (int)(width*0.5-boxnarrowside*width*0.5),(int)(height-1*padding-boxheight*height-substrate_thickness-y_offset), (int)(width*0.5+boxnarrowside*width*0.5), (int)(height-1*padding-boxheight*height-substrate_thickness-y_offset));  // top side
         
         g2.drawRect(padding, height-1*padding-substrate_thickness, width-2*padding,substrate_thickness);
+        
+        for (int i = 0 ; i < nol ; i++) {
+            g2.drawRect(padding, height-1*padding-substrate_thickness-(material1_thickness+material2_thickness)*i, width-2*padding, substrate_thickness);
+        }
+        
         
         double xf = (width*0.5);
         double yf = ((height-1*padding-boxheight*height+ height-1*padding)*0.5 - linelength-substrate_thickness);
@@ -81,6 +87,11 @@ public class DrawingPanel extends JPanel {
     }
     
     public void set_thickness_material2(int thickness) { 
+        
+    }
+    
+    public void set_number_of_layer(int inol) {
+        nol = inol;
         
     }
     

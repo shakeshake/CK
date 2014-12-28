@@ -24,8 +24,9 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jSlider1" min="-2" max="-2" attributes="0"/>
-                  <Component id="jSlider2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="slider_angle" min="-2" max="-2" attributes="0"/>
+                  <Component id="slider_offset" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="slider_nol" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
               <Component id="panel1" min="-2" max="-2" attributes="0"/>
@@ -37,10 +38,12 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="jSlider1" min="-2" max="-2" attributes="0"/>
+              <Component id="slider_angle" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-              <Component id="jSlider2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="318" max="-2" attributes="0"/>
+              <Component id="slider_offset" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+              <Component id="slider_nol" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="261" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
@@ -51,12 +54,12 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JSlider" name="jSlider1">
+    <Component class="javax.swing.JSlider" name="slider_angle">
       <Properties>
         <Property name="maximum" type="int" value="90"/>
       </Properties>
       <Events>
-        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSlider1StateChanged"/>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="slider_angleStateChanged"/>
       </Events>
     </Component>
     <Container class="java.awt.Panel" name="panel1">
@@ -74,9 +77,21 @@
         </DimensionLayout>
       </Layout>
     </Container>
-    <Component class="javax.swing.JSlider" name="jSlider2">
+    <Component class="javax.swing.JSlider" name="slider_offset">
+      <Properties>
+        <Property name="value" type="int" value="0"/>
+      </Properties>
       <Events>
-        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSlider2StateChanged"/>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="slider_offsetStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JSlider" name="slider_nol">
+      <Properties>
+        <Property name="maximum" type="int" value="10"/>
+        <Property name="value" type="int" value="1"/>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="slider_nolStateChanged"/>
       </Events>
     </Component>
   </SubComponents>
