@@ -25,8 +25,8 @@ public class DrawingPanel extends JPanel {
     //private int x_offset = 0;
     private int y_offset = 0;
     private double linelength;  // 100 is temporary value. MUST initialize;
-    private int material1_thickness = 0;
-    private int material2_thickness = 0;
+    private int material1_thickness = 20;
+    private int material2_thickness = 50;
     private int substrate_thickness = 30;
     private int nol = 0; // the number of layer
     
@@ -42,7 +42,7 @@ public class DrawingPanel extends JPanel {
         int height = (int)getHeight();
         linelength = getWidth()*0.5-padding;
         
-        g2.drawLine(padding, height-1*padding-substrate_thickness-y_offset, width-padding, height-1*padding-substrate_thickness-y_offset); // bottom side
+        //g2.drawLine(padding, height-1*padding-substrate_thickness-y_offset, width-padding, height-1*padding-substrate_thickness-y_offset); // bottom side
         g2.drawLine(padding, height-1*padding-substrate_thickness-y_offset, (int)(width*0.5-boxnarrowside*width*0.5),(int)(height-1*padding-boxheight*height-substrate_thickness-y_offset));  // left side
         g2.drawLine(width-padding, height-1*padding-substrate_thickness-y_offset, (int)(width*0.5+boxnarrowside*width*0.5), (int)(height-1*padding-boxheight*height-substrate_thickness-y_offset));  // right side
         g2.drawLine( (int)(width*0.5-boxnarrowside*width*0.5),(int)(height-1*padding-boxheight*height-substrate_thickness-y_offset), (int)(width*0.5+boxnarrowside*width*0.5), (int)(height-1*padding-boxheight*height-substrate_thickness-y_offset));  // top side
@@ -50,9 +50,10 @@ public class DrawingPanel extends JPanel {
         g2.drawRect(padding, height-1*padding-substrate_thickness, width-2*padding,substrate_thickness);
         
         for (int i = 0 ; i < nol ; i++) {
-            g2.drawRect(padding, height-1*padding-substrate_thickness-(material1_thickness+material2_thickness)*i, width-2*padding, substrate_thickness);
+            g2.drawRect(padding, height-1*padding-1*substrate_thickness-(material1_thickness+material2_thickness)*i-(material1_thickness+material2_thickness), width-2*padding, material2_thickness);
+            g2.drawRect(padding, height-1*padding-1*substrate_thickness-(material1_thickness+material2_thickness)*i-material2_thickness, width-2*padding, material1_thickness);
         }
-        
+        g2.drawRect(0,0, 100, 200);
         
         double xf = (width*0.5);
         double yf = ((height-1*padding-boxheight*height+ height-1*padding)*0.5 - linelength-substrate_thickness);

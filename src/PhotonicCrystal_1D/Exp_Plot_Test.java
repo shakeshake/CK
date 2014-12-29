@@ -50,7 +50,7 @@ public class Exp_Plot_Test extends javax.swing.JApplet {
             java.awt.EventQueue.invokeAndWait(new Runnable() {
                 public void run() {
                     initComponents();
-
+                    Plot(slider_angle.getValue()*3.14159/180, slider_offset.getValue(), slider_nol.getValue());
                     
                 }
             });
@@ -141,17 +141,18 @@ public class Exp_Plot_Test extends javax.swing.JApplet {
 
     private void slider_angleStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_angleStateChanged
         // TODO add your handling code here:
-        Plot(slider_angle.getValue()*3.14159/180,slider_offset.getValue());
+        Plot(slider_angle.getValue()*3.14159/180, slider_offset.getValue(), slider_nol.getValue());
     }//GEN-LAST:event_slider_angleStateChanged
 
     private void slider_offsetStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_offsetStateChanged
         // TODO add your handling code here:
-            Plot(slider_angle.getValue()*3.14159/180,slider_offset.getValue());
+        Plot(slider_angle.getValue()*3.14159/180, slider_offset.getValue(), slider_nol.getValue());
     }//GEN-LAST:event_slider_offsetStateChanged
 
     private void slider_nolStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_nolStateChanged
         // TODO add your handling code here:
-            Plot(slider_angle.getValue()*3.14159/180,slider_offset.getValue());
+        
+        Plot(slider_angle.getValue()*3.14159/180, slider_offset.getValue(), slider_nol.getValue());
         
         // 여기에 작성
         
@@ -183,13 +184,14 @@ public class Exp_Plot_Test extends javax.swing.JApplet {
     }
     
 
-    private void Plot(double angle,int yoffset) {
+    private void Plot(double angle,int yoffset,int nol) {
                     panel1.setPreferredSize(new Dimension(300,300));
                     panel1.removeAll();
                     panel1.setLayout(new java.awt.BorderLayout());
                     DrawingPanel gpanel = new DrawingPanel(angle);
 
                     gpanel.set_yoffset(yoffset);
+                    gpanel.set_number_of_layer(nol);
                     
                     panel1.add(gpanel,BorderLayout.CENTER);
                     panel1.validate();
