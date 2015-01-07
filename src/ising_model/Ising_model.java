@@ -18,20 +18,29 @@ import javax.swing.Timer;
  */
 public class Ising_model extends javax.swing.JApplet {
     private int syssize = 50;
-    private int timeSlice = -1;
+    //private int timeSlice = -1;
     
     private IsingCalc IsingModel = new IsingCalc();
     
     //private Timer timer = new Timer();
 
-    private Timer timer;
+    private Timer timer4Plot;
+    private Timer timer4Graph;
     
-    ActionListener teskPerformer = new ActionListener() {
+    ActionListener teskPerformer4Plot = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent evt) {
-            update();
+            updatePlot();
         }
     };
+    
+    ActionListener teskPerformer4Graph = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+            updateGraph();
+            }
+    };
+    
     
 
 
@@ -70,7 +79,8 @@ public class Ising_model extends javax.swing.JApplet {
             java.awt.EventQueue.invokeAndWait(new Runnable() {
                 public void run() {
                     initComponents();
-                    timer = new Timer(timeSlice, teskPerformer);
+                    timer4Plot = new Timer(1, teskPerformer4Plot);
+                    timer4Graph = new Timer(1000, teskPerformer4Graph);
                     
                    // timer = new javax.swing.Timer
                     //matrix.setSystemSize(syssize);
@@ -80,8 +90,10 @@ public class Ising_model extends javax.swing.JApplet {
                     
                     
                     IsingModel.set_rand_matrix();
-                    update();
+                    updatePlot();
+                    updateGraph();
                  
+                    updateParam();
                    
                     //update();
                     
@@ -104,17 +116,24 @@ public class Ising_model extends javax.swing.JApplet {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jSlider = new javax.swing.JSlider();
+        slider_J = new javax.swing.JSlider();
         matrixPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        label_J = new javax.swing.JLabel();
+        txt_J = new javax.swing.JTextField();
         button_start = new javax.swing.JToggleButton();
+        txt_netE = new javax.swing.JTextField();
+        txt_netM = new javax.swing.JTextField();
+        jLabel_netE = new javax.swing.JLabel();
+        jLabel_netM = new javax.swing.JLabel();
+        slider_T = new javax.swing.JSlider();
+        label_T = new javax.swing.JLabel();
+        txt_T = new javax.swing.JTextField();
 
-        jSlider.setMinimum(-100);
-        jSlider.setValue(0);
-        jSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+        slider_J.setMinimum(-100);
+        slider_J.setValue(0);
+        slider_J.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSliderStateChanged(evt);
+                slider_JStateChanged(evt);
             }
         });
 
@@ -129,12 +148,12 @@ public class Ising_model extends javax.swing.JApplet {
             .addGap(0, 500, Short.MAX_VALUE)
         );
 
-        jLabel1.setText("J");
+        label_J.setText("J");
 
-        jTextField1.setText("0");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txt_J.setText("0");
+        txt_J.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txt_JActionPerformed(evt);
             }
         });
 
@@ -155,6 +174,36 @@ public class Ising_model extends javax.swing.JApplet {
             }
         });
 
+        txt_netE.setText("jTextField2");
+        txt_netE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_netEActionPerformed(evt);
+            }
+        });
+
+        txt_netM.setText("jTextField3");
+
+        jLabel_netE.setText("netEnergy");
+
+        jLabel_netM.setText("netMagnetization");
+
+        slider_T.setMaximum(500);
+        slider_T.setValue(0);
+        slider_T.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                slider_TStateChanged(evt);
+            }
+        });
+
+        label_T.setText("Temperature");
+
+        txt_T.setText("0");
+        txt_T.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_TActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -164,52 +213,75 @@ public class Ising_model extends javax.swing.JApplet {
                 .addComponent(matrixPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(221, 221, 221))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(button_start)
-                        .addContainerGap())))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(txt_T, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(slider_T, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(label_J)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(txt_J, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(slider_J, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(button_start, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel_netE)
+                                            .addComponent(jLabel_netM))
+                                        .addGap(31, 31, 31)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txt_netE)
+                                            .addComponent(txt_netM, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                    .addComponent(label_T))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addComponent(jLabel1)
-                        .addGap(14, 14, 14)
+                        .addGap(8, 8, 8)
+                        .addComponent(label_J)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField1))
-                        .addGap(111, 111, 111)
-                        .addComponent(button_start))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(matrixPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(75, Short.MAX_VALUE))
+                            .addComponent(slider_J, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txt_J, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addComponent(label_T)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(slider_T, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txt_T, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(114, 114, 114)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_netE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel_netE))
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_netM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel_netM))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
+                        .addComponent(button_start, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(matrixPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txt_JActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_JActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txt_JActionPerformed
 
-    private void jSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderStateChanged
+    private void slider_JStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_JStateChanged
         // TODO add your handling code here:
-        String temp = String.format("%.2f", ((double)(jSlider.getValue())/100*5));
-        jTextField1.setText(temp);
-        
-        IsingModel.setJ(Double.valueOf(temp));
-      
-
-        
-    }//GEN-LAST:event_jSliderStateChanged
+//        String temp = String.format("%.2f", ((double)(jSlider.getValue())/100*5));
+//        jTextField1.setText(temp);
+//        IsingModel.setJ(Double.valueOf(temp));
+        updateParam("J");
+    }//GEN-LAST:event_slider_JStateChanged
 
     private void button_startStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_button_startStateChanged
         // TODO add your handling code here:
@@ -232,31 +304,53 @@ public class Ising_model extends javax.swing.JApplet {
         // TODO add your handling code here:
         if ("Start".equals(button_start.getText())) {
             button_start.setText("Stop");
-            timer.start();
+            timer4Plot.start();
+            timer4Graph.start();
             //update();
             
             
         } else {
             button_start.setText("Start");
-            timer.stop();
+            timer4Plot.stop();
+            timer4Graph.stop();
 
         }        
     }//GEN-LAST:event_button_startMouseReleased
 
+    private void txt_netEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_netEActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_netEActionPerformed
+
+    private void slider_TStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_TStateChanged
+        // TODO add your handling code here:
+        updateParam("T");
+    }//GEN-LAST:event_slider_TStateChanged
+
+    private void txt_TActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_TActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_TActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton button_start;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JSlider jSlider;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel jLabel_netE;
+    private javax.swing.JLabel jLabel_netM;
+    private javax.swing.JLabel label_J;
+    private javax.swing.JLabel label_T;
     private javax.swing.JPanel matrixPanel;
+    private javax.swing.JSlider slider_J;
+    private javax.swing.JSlider slider_T;
+    private javax.swing.JTextField txt_J;
+    private javax.swing.JTextField txt_T;
+    private javax.swing.JTextField txt_netE;
+    private javax.swing.JTextField txt_netM;
     // End of variables declaration//GEN-END:variables
 
 
     
 
     
-    private void update() {
+    private void updatePlot() {
 
         matrixPanel.setPreferredSize(new Dimension(500,500));
         
@@ -276,11 +370,49 @@ public class Ising_model extends javax.swing.JApplet {
 
 
         matrixPanel.validate();        
+        
+        
+
+        
+    
+        
+        
+    }
+
+    private void updateGraph() {
+        txt_netE.setText(String.format("%.2f",(float)IsingModel.get_netEnergy()));
+        txt_netM.setText(String.format("%d",(int)IsingModel.get_netMagnetization()));
+        
     }
 
 
+    
+    private void updateParam(String Param) {
+        String temp;
+        if ("J".equals(Param)) {
+            temp = String.format("%.1f", ((double)(slider_J.getValue())/100*5));
+            txt_J.setText(temp);
+            IsingModel.setJ(Double.valueOf(temp));
+        } else if ("T".equals(Param)) {
+            temp = String.format("%.1f", ((double)(slider_T.getValue())/10));
+            txt_T.setText(temp);
+            IsingModel.set_temperature(Double.valueOf(temp));
+        } else {
+        }
+
+    }
+    
+    private void updateParam() {
+        updateParam("J");
+        updateParam("T");
+        
+    }
 
 
+    
+    
+    
 }
 
 
+    

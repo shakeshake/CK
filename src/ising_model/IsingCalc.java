@@ -17,13 +17,41 @@ public class IsingCalc {
     private int systemsize = 50;
     private final Boolean[][] SysMat =  new Boolean[systemsize][systemsize];            
     private double J=2;
-    
+        
     static Random rand = new Random();
     
     
     public IsingCalc() {
         
     }
+    
+    public float get_netEnergy() {
+        float sumEnergy = 0;
+        for (int i=0 ; i<systemsize ; i++) {
+            for (int j=0 ; j<systemsize ; j++) {
+                sumEnergy -= deltaU(i,j);
+            }
+        }
+        return sumEnergy/(systemsize^2);
+    }
+    
+    
+    public int get_netMagnetization() {
+        int sumMagnetization = 0;
+        for (int i = 0 ; i < systemsize ; i++) {
+            for (int j = 0 ; j < systemsize ; j++) {
+                if (SysMat[i][j]==true) {
+                    sumMagnetization++;
+                } else {
+                    sumMagnetization--;
+                }
+                
+            }
+        }
+        return sumMagnetization;
+    }
+    
+    
     
     
     
@@ -39,6 +67,7 @@ public class IsingCalc {
         J = iJ;
     }
     
+
     public void set_rand_matrix() {
         for (int i=0;i<systemsize;i++) {
             for (int j=0;j<systemsize;j++) {
@@ -60,12 +89,12 @@ public class IsingCalc {
         int i = rand.nextInt(systemsize);
         int j = rand.nextInt(systemsize);
         
-        if (deltaU(i, j) <=0) {
+        if (deltaU(i, j) < 0) {
             SysMat[i][j] = !SysMat[i][j];
         } 
-//        else if(rand.nextDouble() <= Math.exp(deltaU(i, j)/temperature) ) {
-//            SysMat[i][j] = !SysMat[i][j];
-//        }
+        else if(rand.nextDouble() < Math.exp(-1*deltaU(i, j)/temperature) ) {
+            SysMat[i][j] = !SysMat[i][j];
+        }
         
     }
     
@@ -106,5 +135,6 @@ public class IsingCalc {
         
         return J*center*(top+bottom+left+right);
     }
+
         
 }
