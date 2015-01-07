@@ -19,7 +19,6 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import java.util.Random;
-import static sun.swing.SwingUtilities2.drawRect;
 
 
 /**
