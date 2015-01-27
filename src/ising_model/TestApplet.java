@@ -86,7 +86,7 @@ public class TestApplet extends javax.swing.JApplet {
             .addGap(0, 500, Short.MAX_VALUE)
         );
 
-        jSlider1.setMaximum(50);
+        jSlider1.setMaximum(500);
         jSlider1.setValue(25);
         jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {

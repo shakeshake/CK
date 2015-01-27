@@ -79,7 +79,7 @@ public class DrawMatrix extends JPanel{
         for (int i=0;i<matrixsize;i++) {
             for (int j=0;j<matrixsize;j++) {
                 if (Matrix[i][j]==true) {
-                    g2.setPaint(Color.RED);
+                    g2.setPaint(Color.LIGHT_GRAY);
                 }
                 else {
                     g2.setPaint(Color.BLACK);

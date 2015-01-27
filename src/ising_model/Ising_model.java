@@ -9,7 +9,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.Timer;
+
+////import java.util.TimerTask;
+////import java.util.Timer;
 
 
 /**
@@ -17,6 +22,9 @@ import javax.swing.Timer;
  * @author Horang
  */
 public class Ising_model extends javax.swing.JApplet {
+    List<Double> energy = new ArrayList<>();
+    List<Double> magnetization = new ArrayList<>();
+    int plotIndexoffset = 0;
     private int syssize = 50;
     //private int timeSlice = -1;
     
@@ -24,6 +32,7 @@ public class Ising_model extends javax.swing.JApplet {
     
     //private Timer timer = new Timer();
 
+//////    Description under this line is for to repeat jobs using java.swing.timer    
     private Timer timer4Plot;
     private Timer timer4Graph;
     
@@ -40,6 +49,26 @@ public class Ising_model extends javax.swing.JApplet {
             updateGraph();
             }
     };
+
+    
+//////    Description under this line is for to repeat jobs using THREAD
+////    private Timer timer4Plot2;
+////    private Timer timer4Graph2;
+////    private TimerTask task4Plot = new TimerTask() {
+////            @Override 
+////            public void run() {
+////                updatePlot();
+////            }
+////    };
+////    private TimerTask task4Graph = new TimerTask() {
+////            @Override
+////            public void run() {
+////                updateGraph();
+////            }
+////    };
+////////////////////////////////
+   
+    
     
     
 
@@ -81,16 +110,15 @@ public class Ising_model extends javax.swing.JApplet {
                     initComponents();
                     timer4Plot = new Timer(1, teskPerformer4Plot);
                     timer4Graph = new Timer(1000, teskPerformer4Graph);
-                    
-                   // timer = new javax.swing.Timer
-                    //matrix.setSystemSize(syssize);
-                    //matrix.set_rand_matrix();
+                        
+
                     
                     IsingModel.setSystemSize(syssize);
                     
                     
                     IsingModel.set_rand_matrix();
                     updatePlot();
+                    initializeGraph();
                     updateGraph();
                  
                     updateParam();
@@ -121,34 +149,38 @@ public class Ising_model extends javax.swing.JApplet {
         label_J = new javax.swing.JLabel();
         txt_J = new javax.swing.JTextField();
         button_start = new javax.swing.JToggleButton();
-        txt_netE = new javax.swing.JTextField();
-        txt_netM = new javax.swing.JTextField();
-        jLabel_netE = new javax.swing.JLabel();
-        jLabel_netM = new javax.swing.JLabel();
         slider_T = new javax.swing.JSlider();
         label_T = new javax.swing.JLabel();
         txt_T = new javax.swing.JTextField();
+        panel_netM = new java.awt.Panel();
+        panel_netE = new java.awt.Panel();
+        txt_status = new javax.swing.JLabel();
+
+        setMaximumSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(800, 600));
 
         slider_J.setMinimum(-100);
-        slider_J.setValue(0);
+        slider_J.setValue(10);
         slider_J.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 slider_JStateChanged(evt);
             }
         });
 
+        matrixPanel.setPreferredSize(new java.awt.Dimension(450, 450));
+
         javax.swing.GroupLayout matrixPanelLayout = new javax.swing.GroupLayout(matrixPanel);
         matrixPanel.setLayout(matrixPanelLayout);
         matrixPanelLayout.setHorizontalGroup(
             matrixPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 450, Short.MAX_VALUE)
         );
         matrixPanelLayout.setVerticalGroup(
             matrixPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 450, Short.MAX_VALUE)
         );
 
-        label_J.setText("J");
+        label_J.setText("Interaction coefficient");
 
         txt_J.setText("0");
         txt_J.addActionListener(new java.awt.event.ActionListener() {
@@ -174,19 +206,6 @@ public class Ising_model extends javax.swing.JApplet {
             }
         });
 
-        txt_netE.setText("jTextField2");
-        txt_netE.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_netEActionPerformed(evt);
-            }
-        });
-
-        txt_netM.setText("jTextField3");
-
-        jLabel_netE.setText("netEnergy");
-
-        jLabel_netM.setText("netMagnetization");
-
         slider_T.setMaximum(500);
         slider_T.setValue(0);
         slider_T.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -204,70 +223,93 @@ public class Ising_model extends javax.swing.JApplet {
             }
         });
 
+        panel_netM.setPreferredSize(new java.awt.Dimension(329, 220));
+
+        javax.swing.GroupLayout panel_netMLayout = new javax.swing.GroupLayout(panel_netM);
+        panel_netM.setLayout(panel_netMLayout);
+        panel_netMLayout.setHorizontalGroup(
+            panel_netMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panel_netMLayout.setVerticalGroup(
+            panel_netMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 220, Short.MAX_VALUE)
+        );
+
+        panel_netE.setPreferredSize(new java.awt.Dimension(329, 220));
+
+        javax.swing.GroupLayout panel_netELayout = new javax.swing.GroupLayout(panel_netE);
+        panel_netE.setLayout(panel_netELayout);
+        panel_netELayout.setHorizontalGroup(
+            panel_netELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panel_netELayout.setVerticalGroup(
+            panel_netELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 220, Short.MAX_VALUE)
+        );
+
+        txt_status.setFont(new java.awt.Font("굴림", 1, 18)); // NOI18N
+        txt_status.setText("Ferromagnetic");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+            .addGroup(layout.createSequentialGroup()
                 .addComponent(matrixPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(txt_T, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(slider_T, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label_J)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(txt_J, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(slider_J, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(button_start, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel_netE)
-                                            .addComponent(jLabel_netM))
-                                        .addGap(31, 31, 31)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txt_netE)
-                                            .addComponent(txt_netM, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                    .addComponent(label_T))
+                    .addComponent(panel_netE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panel_netM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(button_start, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label_T, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(label_J, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txt_T, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(slider_T, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txt_J, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(slider_J, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txt_status, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(matrixPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(label_J)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panel_netE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(panel_netM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(slider_J, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txt_J, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27)
-                        .addComponent(label_T)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txt_J)
+                                .addComponent(label_J, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txt_status, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(slider_T, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txt_T, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(114, 114, 114)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_netE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel_netE))
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_netM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel_netM))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
-                        .addComponent(button_start, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(matrixPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txt_T, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(label_T))))
+                    .addComponent(button_start, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -281,6 +323,13 @@ public class Ising_model extends javax.swing.JApplet {
 //        jTextField1.setText(temp);
 //        IsingModel.setJ(Double.valueOf(temp));
         updateParam("J");
+        if (((slider_J.getValue())) > 0) {   
+            txt_status.setText("Ferromagnetic");//Ferromagnetic
+        } else if (((slider_J.getValue())) < 0) {
+            txt_status.setText("Antiferromagnetic");//Anti-ferromagnetic
+        } else if (((slider_J.getValue())) == 0) {
+            txt_status.setText("Nonintercting");//Noninteracting
+        }
     }//GEN-LAST:event_slider_JStateChanged
 
     private void button_startStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_button_startStateChanged
@@ -306,20 +355,22 @@ public class Ising_model extends javax.swing.JApplet {
             button_start.setText("Stop");
             timer4Plot.start();
             timer4Graph.start();
-            //update();
+
+//                timer4Plot2.schedule(task4Plot,0,10000);
+//                timer4Graph2.schedule(task4Graph,1000);
+                
             
             
         } else {
             button_start.setText("Start");
             timer4Plot.stop();
             timer4Graph.stop();
+            
+//                timer4Plot2.cancel();
+               // timer4Graph2.cancel();
 
         }        
     }//GEN-LAST:event_button_startMouseReleased
-
-    private void txt_netEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_netEActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_netEActionPerformed
 
     private void slider_TStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_TStateChanged
         // TODO add your handling code here:
@@ -333,38 +384,38 @@ public class Ising_model extends javax.swing.JApplet {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton button_start;
-    private javax.swing.JLabel jLabel_netE;
-    private javax.swing.JLabel jLabel_netM;
     private javax.swing.JLabel label_J;
     private javax.swing.JLabel label_T;
     private javax.swing.JPanel matrixPanel;
+    private java.awt.Panel panel_netE;
+    private java.awt.Panel panel_netM;
     private javax.swing.JSlider slider_J;
     private javax.swing.JSlider slider_T;
     private javax.swing.JTextField txt_J;
     private javax.swing.JTextField txt_T;
-    private javax.swing.JTextField txt_netE;
-    private javax.swing.JTextField txt_netM;
+    private javax.swing.JLabel txt_status;
     // End of variables declaration//GEN-END:variables
 
 
     
 
-    
+
     private void updatePlot() {
 
-        matrixPanel.setPreferredSize(new Dimension(500,500));
+        matrixPanel.setPreferredSize(new Dimension(450,450));
         
         matrixPanel.removeAll();
         matrixPanel.setLayout(new java.awt.BorderLayout());
         //GraphPanel tmpgraph = new GraphPanel(data);
-        //DrawMatrix matrix = new DrawMatrix(syssize);  
+
         
         DrawMatrix matrix = new DrawMatrix(syssize);
         
         //matrix.set_rand_matrix();    
         IsingModel.metroIsing();
         matrix.setMatrix(IsingModel.getMatrix());
- 
+        
+      
 
         matrixPanel.add(matrix, BorderLayout.CENTER);
 
@@ -372,17 +423,56 @@ public class Ising_model extends javax.swing.JApplet {
         matrixPanel.validate();        
         
         
+    }
+     
+    
+    
+    
+    
+    private void initializeGraph() {
+//        for (int i = 0 ; i < 30 ; i++) {
+//            energy.add(Double.NaN);
+//        }
 
+       
+    }
         
     
         
         
-    }
+    
 
     private void updateGraph() {
-        txt_netE.setText(String.format("%.2f",(float)IsingModel.get_netEnergy()));
-        txt_netM.setText(String.format("%d",(int)IsingModel.get_netMagnetization()));
         
+//        txt_netE.setText(String.format("%.2f",(float)IsingModel.get_netEnergy()));
+//        txt_netM.setText(String.format("%d",(int)IsingModel.get_netMagnetization()));
+        energy.add((double)IsingModel.get_netEnergy());
+        magnetization.add((double)IsingModel.get_netMagnetization());
+      
+        if (energy.size() >=50) {
+            energy.remove(0);
+            magnetization.remove(0);
+            plotIndexoffset++;
+            
+        }
+        
+        refreshPlot(panel_netE,energy,"net Energy",plotIndexoffset);
+        refreshPlot(panel_netM,magnetization, "net Magnetization",plotIndexoffset);
+        
+      
+        
+        
+    }
+    
+    private void refreshPlot(java.awt.Panel graph, List<Double> data, String Title, int xoffset) {
+        graph.setPreferredSize(new Dimension(329,220));
+        graph.removeAll();
+        graph.setLayout(new java.awt.BorderLayout());
+        GraphPanel gpanel = new GraphPanel(data);
+        gpanel.setTitle(Title);
+        gpanel.setXoffset(xoffset);
+        graph.add(gpanel, BorderLayout.CENTER);
+        graph.validate();
     }
 
 
@@ -392,7 +482,8 @@ public class Ising_model extends javax.swing.JApplet {
         if ("J".equals(Param)) {
             temp = String.format("%.1f", ((double)(slider_J.getValue())/100*5));
             txt_J.setText(temp);
-            IsingModel.setJ(Double.valueOf(temp));
+            IsingModel.setJ(Double.valueOf(temp));           
+            
         } else if ("T".equals(Param)) {
             temp = String.format("%.1f", ((double)(slider_T.getValue())/10));
             txt_T.setText(temp);
@@ -415,4 +506,4 @@ public class Ising_model extends javax.swing.JApplet {
 }
 
 
-    
+
