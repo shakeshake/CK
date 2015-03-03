@@ -490,7 +490,7 @@ public class waveplate_main extends javax.swing.JApplet {
         //double tmpanglediff = Math.acos( Math.cos(phasediff) * Math.sin(ny * kd) / Math.sin(nx * kd) );
         //double tmpanglediff = Math.acos(Math.cos(phasediff) - Math.sin(phasediff)) * Math.sin(ny * kd) / Math.sin(nx * kd) ;
         double tmpanglediff = (kd * (ny-nx));
-        System.out.println(tmpanglediff);
+        //System.out.println(tmpanglediff);
         return tmpanglediff;
         
         
